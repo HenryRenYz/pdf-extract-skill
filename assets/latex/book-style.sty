@@ -1,0 +1,135 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{book-style}[2026/10/11 Native semantic book export]
+\RequirePackage{geometry}
+\geometry{paperwidth=\BookPaperWidth mm,paperheight=\BookPaperHeight mm,
+  textwidth=\BookTextWidth mm,top=22mm,bottom=22mm,headheight=16pt}
+\setmainfont{\BookLatinFont}
+\setsansfont{\BookLatinSansFont}
+% Regular Heiti for text emphasis; mathematical bold remains mathematical.
+\setCJKmainfont{\BookCJKFont}[BoldFont=\BookCJKEmphasisFont,AutoFakeSlant=0.2]
+\setCJKsansfont{\BookCJKEmphasisFont}[BoldFont=\BookCJKEmphasisFont,AutoFakeSlant=0.2]
+% Chinese code characters are full-width in the selected CJK family. Register
+% it explicitly instead of relying on xeCJK's unknown monospaced-family fallback.
+\setCJKmonofont{\BookCJKFont}[BoldFont=\BookCJKEmphasisFont,AutoFakeSlant=0.2]
+\RequirePackage{amsmath,amssymb,amsthm,bm,mathrsfs}
+\RequirePackage{cases}
+\numberwithin{equation}{chapter}
+\RequirePackage{xcolor,graphicx,array,booktabs,multirow,tabularx,adjustbox,float,caption,needspace}
+\RequirePackage[nomath]{cellspace}
+\RequirePackage{arydshln}
+\RequirePackage{pdfpages}
+\RequirePackage{multicol}
+\RequirePackage{titletoc}
+\RequirePackage[unicode,hidelinks]{hyperref}
+\hypersetup{pdftitle={\BookTitle},pdfauthor={\BookAuthor}}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+% Source-like three-level directory. Page numbers are the live LaTeX pages,
+% with right-aligned parentheses; typography stays in the shared template.
+\renewcommand{\contentsname}{目\quad 录}
+% Page-column width must be physical: an em width varies with entry level.
+\contentsmargin{16mm}
+\titlecontents{chapter}[4.5em]
+  {\addvspace{0.8\baselineskip}\normalsize\sffamily\mdseries}
+  {\contentslabel{4.5em}}
+  {\hspace*{-4.5em}}
+  {\normalfont\small\titlerule*[0.6em]{.}\contentspage[(\thecontentspage)]}
+\titlecontents{section}[4.5em]
+  {\addvspace{2pt}\normalsize\rmfamily\mdseries}
+  {\contentslabel{2.5em}}
+  {\hspace*{-2.5em}}
+  {\normalfont\small\titlerule*[0.6em]{.}\contentspage[(\thecontentspage)]}
+\titlecontents{subsection}[7.4em]
+  {\addvspace{2pt}\small\rmfamily\mdseries}
+  {\contentslabel{2.9em}}
+  {\hspace*{-2.9em}}
+  {\normalfont\small\titlerule*[0.6em]{.}\contentspage[(\thecontentspage)]}
+\AddToHook{cmd/tableofcontents/before}{%
+  \begingroup\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}}
+% The directory and body share the native plain page style (footer numbers).
+\AddToHook{cmd/tableofcontents/after}{\clearpage\endgroup}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.2em}
+\setlength{\emergencystretch}{2em}
+\linespread{1.18}
+% List geometry comes from reviewed source metadata or measured labels. Keep
+% vertical rhythm here, including the extra skip TeX adds after a blank line.
+\RequirePackage{enumitem}
+\setlist{topsep=0.3\baselineskip,partopsep=0pt,itemsep=0.15\baselineskip,
+  parsep=0pt,listparindent=2\ccwd}
+% A full-size text bullet is readable at body and small sizes. The slight lift
+% aligns its visual centre with the CJK term without moving the text baseline.
+\renewcommand{\labelitemi}{\raisebox{0.05ex}{\textbullet}}
+% Font-size commands can restore class defaults after command hooks have run.
+% Apply the policy when display math actually starts, preserving everydisplay's
+% existing AMS hooks. This also covers zihao/fontspec and narrow/list contexts.
+\newcommand{\BookApplyDisplaySkip}[1]{%
+  \setlength{\abovedisplayskip}{#1}%
+  \setlength{\belowdisplayskip}{#1}%
+  % TeX already supplies baseline clearance in the short-line branch. Adding
+  % the full display skip there creates a visible blank band around one line.
+  \setlength{\abovedisplayshortskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}}
+\makeatletter
+\newcommand{\BookSetDisplaySpacing}{%
+  \ifdim\f@size pt<9.5pt
+    \BookApplyDisplaySkip{2pt}%
+  \else\ifdim\f@size pt<11pt
+    \BookApplyDisplaySkip{3pt}%
+  \else
+    \BookApplyDisplaySkip{4pt}%
+  \fi\fi}
+\makeatother
+\AddToHook{cmd/normalsize/after}{\BookApplyDisplaySkip{4pt}}
+\AddToHook{cmd/small/after}{\BookApplyDisplaySkip{3pt}}
+\AddToHook{cmd/footnotesize/after}{\BookApplyDisplaySkip{2pt}}
+\everydisplay\expandafter{\the\everydisplay\BookSetDisplaySpacing}
+% Keep local spacing stable instead of stretching it to force a full page.
+\AtBeginDocument{\normalsize\raggedbottom}
+\pagestyle{plain}
+% Body is 12 pt (小四); all numbered headings are visibly larger.
+\ctexset{
+  chapter={format=\centering\zihao{2}\sffamily\mdseries,
+    name={第,章},number=\arabic{chapter},aftername=\hspace{2\ccwd},pagestyle=plain},
+  section={format=\centering\zihao{3}\sffamily\mdseries,aftername=\hspace{\ccwd}},
+  subsection={format=\zihao{4}\sffamily\mdseries,aftername=\hspace{\ccwd}},
+  subsubsection={format=\zihao{4}\sffamily\mdseries,aftername=\hspace{\ccwd}}}
+% The exporter uses multicols only for a source-reviewed two-column index.
+% Native environment grouping restores body typography after the index.
+\AddToHook{env/multicols/begin}{%
+  \small
+  \setlength{\parindent}{0pt}%
+  \setlength{\parskip}{0pt}%
+  \ctexset{section={format=\centering\small\sffamily\mdseries,
+    beforeskip=0.75\baselineskip,afterskip=0.5\baselineskip}}}
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
+\captionsetup{font=small,labelfont=normalfont,labelsep=quad,
+  justification=centering,singlelinecheck=false}
+\captionsetup[figure]{position=bottom,skip=5pt}
+\captionsetup[table]{position=top,skip=5pt}
+% Shared table defaults; source ruling still belongs to the native tabular.
+\newlength{\BookTableColumnArea}
+\setlength{\tabcolsep}{4pt}
+\setlength{\arrayrulewidth}{0.35pt}
+\setlength{\cellspacetoplimit}{3pt}
+\setlength{\cellspacebottomlimit}{3pt}
+% Table text and fraction operands share one readable base size. Inline
+% fraction style otherwise shrinks operands even when the table font is equal.
+% The native environment group keeps this out of surrounding body mathematics.
+% arydshln saves the original cellspace paragraph hooks at load time.
+% Activate dashed rules in mathematical arrays; ordinary tables retain cellspace.
+\AddToHook{env/array/begin}{\ADLactivate}
+\AddToHook{env/tabular/begin}{%
+  \ADLinactivate
+  \small
+  \renewcommand{\arraystretch}{1.25}%
+  \setlength{\extrarowheight}{2pt}%
+  \everymath\expandafter{\the\everymath\displaystyle}}
+% Native amsthm \qed provides a right-aligned end marker on the final line.
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+
+% Keep short paragraph tails intact without altering fonts or page margins.
+\widowpenalties 3 10000 10000 10000
+\clubpenalties 2 10000 10000
+\displaywidowpenalty=10000

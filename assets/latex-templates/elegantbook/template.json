@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "entry": "main.tex",
+  "resources": [
+    "main.tex",
+    "template-style.sty",
+    "elegantbook.cls",
+    "LICENSE.txt"
+  ],
+  "engine": "xelatex",
+  "family": "book",
+  "body_extensions": [
+    "text-glyph-fallback-v1",
+    "annotated-code-v1"
+  ]
+}

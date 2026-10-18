@@ -1,0 +1,71 @@
+\ProvidesPackage{template-style}[2026/10/18 Native body adapter]
+\RequirePackage{geometry}
+\geometry{paperwidth=\BookPaperWidth mm,paperheight=\BookPaperHeight mm,textwidth=\BookTextWidth mm,top=22mm,bottom=22mm,headheight=16pt}
+\setmainfont{\BookLatinFont}
+\setsansfont{\BookLatinSansFont}
+\setCJKmainfont{\BookCJKFont}[BoldFont=\BookCJKEmphasisFont,AutoFakeSlant=.2]
+\setCJKsansfont{\BookCJKEmphasisFont}
+\setCJKmonofont{\BookCJKFont}[BoldFont=\BookCJKEmphasisFont]
+\RequirePackage{enumitem}
+\setlist{topsep=.3\baselineskip,partopsep=0pt,itemsep=.15\baselineskip,parsep=0pt,listparindent=2\ccwd}
+\renewcommand{\labelitemi}{\raisebox{.05ex}{\textbullet}}
+\setlength{\parindent}{2\ccwd}
+\setlength{\parskip}{.2em}
+\setlength{\emergencystretch}{2em}
+\linespread{1.18}
+\RequirePackage{caption}
+\captionsetup{font=small,labelfont=normalfont,labelsep=quad,justification=centering,singlelinecheck=false}
+\captionsetup[figure]{position=bottom,skip=5pt}
+\captionsetup[table]{position=top,skip=5pt}
+\setlength{\tabcolsep}{4pt}
+\setlength{\arrayrulewidth}{.35pt}
+\AddToHook{env/tabular/begin}{\small\renewcommand{\arraystretch}{1.25}\setlength{\extrarowheight}{2pt}\everymath\expandafter{\the\everymath\displaystyle}}
+\newcommand{\BookApplyDisplaySkip}[1]{%
+  \setlength{\abovedisplayskip}{#1}%
+  \setlength{\belowdisplayskip}{#1}%
+  % TeX already supplies baseline clearance in the short-line branch. Adding
+  % the full display skip there creates a visible blank band around one line.
+  \setlength{\abovedisplayshortskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}}
+\makeatletter
+\newcommand{\BookSetDisplaySpacing}{%
+  \ifdim\f@size pt<9.5pt
+    \BookApplyDisplaySkip{2pt}%
+  \else\ifdim\f@size pt<11pt
+    \BookApplyDisplaySkip{3pt}%
+  \else
+    \BookApplyDisplaySkip{4pt}%
+  \fi\fi}
+\makeatother
+\AddToHook{cmd/normalsize/after}{\BookApplyDisplaySkip{4pt}}
+\AddToHook{cmd/small/after}{\BookApplyDisplaySkip{3pt}}
+\AddToHook{cmd/footnotesize/after}{\BookApplyDisplaySkip{2pt}}
+\everydisplay\expandafter{\the\everydisplay\BookSetDisplaySpacing}
+% Keep local spacing stable instead of stretching it to force a full page.
+\AtBeginDocument{\normalsize\raggedbottom}
+
+% Thin source-rule adapter: native KOMA/LaTeX interfaces only.
+\RedeclareSectionCommand[beforeskip=50pt,afterskip=40pt,afterindent=true]{chapter}
+\RedeclareSectionCommand[beforeskip=3.5ex plus 1ex minus .2ex,afterskip=2.3ex plus .2ex,afterindent=true]{section}
+\RedeclareSectionCommand[beforeskip=3.25ex plus 1ex minus .2ex,afterskip=1.5ex plus .2ex,afterindent=true]{subsection}
+\RedeclareSectionCommand[beforeskip=3.25ex plus 1ex minus .2ex,afterskip=1.5ex plus .2ex,afterindent=true]{subsubsection}
+\renewcommand{\chapterformat}{第\thechapter 章\enskip}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
+\AtBeginDocument{\pagestyle{plain}}
+
+% Match frozen baseline role sizes (ctex bp sizes), without changing fonts.
+\setkomafont{chapter}{\normalfont\sffamily\mdseries\zihao{2}}
+\setkomafont{section}{\normalfont\sffamily\mdseries\zihao{3}}
+\setkomafont{subsection}{\normalfont\sffamily\mdseries\zihao{4}}
+\setkomafont{subsubsection}{\normalfont\sffamily\mdseries\zihao{4}}
+
+\captionsetup[figure]{name=图}
+\captionsetup[table]{name=表}
+
+% Keep short paragraph tails intact without altering fonts or page margins.
+\widowpenalties 3 10000 10000 10000
+\clubpenalties 2 10000 10000
+\displaywidowpenalty=10000

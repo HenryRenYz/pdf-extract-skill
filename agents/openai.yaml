@@ -1,0 +1,4 @@
+interface:
+  display_name: "PDF Extraction, Proofreading, and Typesetting"
+  short_description: "Extract, proofread, and typeset PDFs with source evidence"
+  default_prompt: "Use $pdf-extract to extract the document into Markdown, semantic blocks, and retrieval chunks while preserving formulas, code, figures, and source evidence; if typesetting is needed, complete template validation and generate LaTeX and PDF."

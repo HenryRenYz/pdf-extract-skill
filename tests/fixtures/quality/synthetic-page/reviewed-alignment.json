@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "reviewer": "Synthetic deterministic mapping",
+  "reference_sha256": "041f0d3035ddc912a3af16dcae9c63a8f08e3be41bac6e944a9583c73fb849b2",
+  "candidate_sha256": "2e26683d7e5a30b706ca1ac82fceb39a04b074b0121662579a5b8f3df489624c",
+  "units": {
+    "heading": {
+      "block_id": "heading"
+    },
+    "paragraph": {
+      "block_id": "paragraph"
+    },
+    "formula": {
+      "block_id": "formula"
+    },
+    "table": {
+      "block_id": "table"
+    },
+    "code": {
+      "block_id": "code"
+    },
+    "emphasis": {
+      "block_id": "paragraph"
+    },
+    "ordinary": {
+      "block_id": "heading"
+    }
+  }
+}

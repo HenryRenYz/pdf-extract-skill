@@ -1,0 +1,22 @@
+[project]
+name = "pdf-extract-skill"
+version = "0.3.0"
+description = "Source-traceable PDF extraction and optional reviewed LaTeX reflow"
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+dependencies = ["Pillow>=10", "PyMuPDF>=1.24"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+figures = ["numpy>=1.24", "matplotlib>=3.8", "fonttools>=4", "scipy>=1.11", "CairoSVG>=2.7"]
+rectify = ["opencv-python-headless>=4.8"]
+ocr = ["torch>=2.5", "transformers>=4.51", "mineru-vl-utils"]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = []

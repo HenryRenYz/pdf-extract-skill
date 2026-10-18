@@ -1,0 +1,49 @@
+{
+  "version": "book-figure-style-v2",
+  "description": "A neutral monochrome starting profile. The coordinator must inspect source figures and freeze a book-specific profile before dispatch.",
+  "font": {
+    "family": "DejaVu Sans",
+    "paths": [],
+    "required_styles": [
+      "normal"
+    ],
+    "note": "For Chinese labels, configure a locally installed CJK family or supply font file paths. Missing families or label glyphs fail rather than silently substituting fonts."
+  },
+  "mathtext_fontset": "stix",
+  "pdf_fonttype": "auto",
+  "font_size_pt": 9.0,
+  "label_size_pt": 9.0,
+  "tick_size_pt": 8.0,
+  "legend_size_pt": 8.0,
+  "line_width_pt": 0.8,
+  "axis_width_pt": 0.6,
+  "tick_width_pt": 0.6,
+  "tick_length_pt": 3.0,
+  "marker_size_pt": 3.0,
+  "color": "#000000",
+  "background": "#ffffff",
+  "grid_color": "#888888",
+  "grid_width_pt": 0.4,
+  "allowed_overrides": [
+    "color",
+    "background",
+    "grid_color",
+    "line_width_pt",
+    "axis_width_pt",
+    "font_size_pt",
+    "label_size_pt",
+    "tick_size_pt",
+    "legend_size_pt",
+    "marker_size_pt"
+  ],
+  "override_policy": "Only coordinator-reviewed spec.style_override values are allowed. Preserve source color when meaningful; do not recolor every figure to match this starter profile.",
+  "label_background": {
+    "enabled": true,
+    "mode": "selective",
+    "facecolor": "#ffffff",
+    "alpha": 1.0,
+    "padding_em": 0.04,
+    "zorder": 10,
+    "note": "Keep point labels close and unchanged unless actual overlap occurs. First try directions around the point at fixed gap, then increase gap only if needed. Only unavoidable overlaps receive a small white backing: text.set_gid('label-background:STABLE_ID'). Record placement attempts and reason in scene/self-check; protect nodes, intersections and arrowheads."
+  }
+}

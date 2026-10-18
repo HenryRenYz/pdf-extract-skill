@@ -1,0 +1,51 @@
+{
+  "page": 1,
+  "source_sha256": "320c1717d8d78ce6e22a59ccd7a4266802d212b3f3e68ce39aadc0eec3de7cc7",
+  "source_image_sha256": "c37e2c141777d6f674edfb0c7b785d171cc8af3e7108b5769d9e22a41b175ef8",
+  "blocks": [
+    {
+      "id": "code",
+      "type": "code",
+      "text": "print('hello')",
+      "styles": []
+    },
+    {
+      "id": "paragraph",
+      "type": "paragraph",
+      "text": "Keep the origina1 text.",
+      "styles": []
+    },
+    {
+      "id": "formula",
+      "type": "formula",
+      "text": "$s = a - b$",
+      "styles": []
+    },
+    {
+      "id": "table",
+      "type": "table",
+      "text": "Name | Value\nx | 2\ny | 3",
+      "cells": [
+        [
+          "Name",
+          "Value"
+        ],
+        [
+          "x",
+          "2"
+        ],
+        [
+          "y",
+          "8"
+        ]
+      ],
+      "styles": []
+    },
+    {
+      "id": "heading",
+      "type": "heading",
+      "text": "Synthetic extraction sample",
+      "styles": []
+    }
+  ]
+}

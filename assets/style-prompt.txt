@@ -1,0 +1,25 @@
+Task: calibrate only the font styles of already-recognized text; do not re-run OCR, do not change body text or mathematical symbols, and do not normalize printing exceptions in the source book.
+Read the assigned pages/blocks and local context in this job's input/page.json, and the reviewed, frozen rules for this book in input/rules.json. Submit only the assigned blocks; do not read other candidate results, experimental answers, or rules outside the learning scope.
+The input provides source_sha256, the rules version, and each block's id/text/bbox/base_text_sha256; return identities and hashes unchanged, item by item; do not guess values. Compute start/end from Unicode character positions in the input text (end exclusive), not byte or UTF-16 indexes.
+
+Distinguish headings/structural labels, definitions of Chinese terms versus ordinary mentions, scalars/functions, vectors/matrices themselves, components/elements, indexes, units/named operators, and special glyphs such as double-struck.
+Rules are transfer evidence from verified samples in this book, not proof for every source-image location. First occurrence, presence of an alias, introduction in this section, uppercase letter, or presence of a subscript must not by itself determine bold. Symbols with the same meaning may have different weights in the source book; do not unify them automatically.
+With rule-only input, styles[].evidence can only be rule_inferred or uncertain; do not claim source_checked and do not invent viewed images. An explicit rule inference must provide rule_id and rule_version; when rules do not cover a case, conflict with each other, or the identity is unreliable, list it as `needs_review`; do not default to normal font.
+When an existing source_checked style conflicts with a rule, keep the original confirmation and do not overwrite it; record the conflict for review. Original OCR formatting alone or a model's self-report does not equal confirmation.
+
+Actually write output/style-patches.json:
+{
+  "page": "assigned physical page integer",
+  "source_sha256": "original input value",
+  "rule_version": "rules version from input",
+  "patches": [{
+    "block_id": "original block ID",
+    "base_text_sha256": "original input value",
+    "styles": [{"start": 0, "end": 1, "kind": "one of normal/bold/italic/bold_italic/upright/bold_math/double_struck/underline/kai", "evidence": "rule_inferred", "rule_id": "actual rule ID", "rule_version": "version from input"}],
+    "uncertainties": [{"reason": "reason it cannot be confirmed", "bbox": "source coordinates or null"}]
+  }]
+}
+The above describes fields only; replace example placeholders with actual values; page is an integer, and bbox is a pixel-coordinate array or null. Every assigned block must have a patch, even when no style applies; when there are no uncertainties, uncertainties is an empty list; when styles are unknown, styles may be empty and the case must be listed as an uncertainty.
+Do not output new body text, self-reported font accuracy, or a fabricated confirmation status; report completion only after the file is written.
+
+Judge underline, Kai (kai), weight, and slant separately; they may have overlapping Unicode spans. kai is not equivalent to all italic; an identifier underscore in a program is not a decorative span. Do not modify paragraph/heading/list/code/grammar structure in a style job, do not set review.source_checked or fabricate an independent review; return only candidate patches based on the frozen rules.

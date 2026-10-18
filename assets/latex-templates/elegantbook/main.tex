@@ -1,0 +1,25 @@
+% !TeX program = xelatex
+% !TeX encoding = UTF-8
+\PassOptionsToPackage{zihao=-4}{ctex}
+\documentclass[lang=cn,chinesefont=nofont,scheme=chinese,mode=fancy,12pt,openany]{elegantbook}
+% Use AMS proof mechanics; source-reviewed end marks remain exporter-owned.
+\let\proof\relax\let\endproof\relax\let\openbox\relax
+\usepackage{amsthm}
+% Source fidelity: decorative card-suit markers are not source content.
+\tcbset{thmstyle/.append style={overlay unbroken and last={}},defstyle/.append style={overlay unbroken and last={}},prostyle/.append style={overlay unbroken and last={}}}
+\input{book-config.tex}
+\usepackage{template-style}
+% Reset inherited fixed left/right margins before applying frozen dimensions.
+\geometry{reset,paperwidth=\BookPaperWidth mm,paperheight=\BookPaperHeight mm,textwidth=\BookTextWidth mm,hmarginratio=2:3,top=22mm,bottom=22mm,headheight=16pt}
+% Match baseline sizes while retaining ElegantBook color and heading alignment.
+\titleformat{\chapter}[hang]{\bfseries}{\filcenter\zihao{2}\enspace\bfseries\color{structurecolor}\xchaptertitle}{1pt}{\zihao{2}\bfseries\color{structurecolor}\filcenter}
+\titleformat{\section}[hang]{\bfseries}{\zihao{3}\bfseries\color{structurecolor}\thesection\enspace}{1pt}{\color{structurecolor}\zihao{3}\bfseries\filright}
+\titleformat{\subsection}[hang]{\bfseries}{\zihao{4}\bfseries\color{structurecolor}\thesubsection\enspace}{1pt}{\color{structurecolor}\zihao{4}\bfseries\filright}
+\titleformat{\subsubsection}[hang]{\bfseries}{\zihao{4}\bfseries\color{structurecolor}\thesubsubsection\enspace}{1pt}{\color{structurecolor}\zihao{4}\bfseries\filright}
+% Candidate-local compatibility: retain the source's Arabic chapter numerals.
+\renewcommand{\xchaptertitle}{第\arabic{chapter}章}
+% enumitem sets labelitemi at environment entry; override the class ball marker.
+\setlist[itemize,1]{label={\raisebox{.05ex}{\textbullet}}}
+\begin{document}
+@@BODY@@
+\end{document}

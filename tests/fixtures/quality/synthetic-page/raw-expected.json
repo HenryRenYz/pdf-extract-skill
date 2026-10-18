@@ -1,0 +1,55 @@
+{
+  "text": {
+    "checkpoints": 3,
+    "exact": 2,
+    "edit_distance": 1,
+    "reference_characters": 64,
+    "cer": 0.015625
+  },
+  "formula": {
+    "checkpoints": 1,
+    "strict_exact": 0,
+    "accepted_exact": 0
+  },
+  "table": {
+    "checkpoints": 1,
+    "shape_exact": 1,
+    "reference_cells": 6,
+    "candidate_cells": 6,
+    "cell_text_exact": 5,
+    "cell_text_and_span_exact": 5,
+    "parse_failures": 0
+  },
+  "styles": {
+    "checkpoints": 2,
+    "text_aligned_checkpoints": 1,
+    "exact_checkpoints": 1,
+    "reference_characters": 50,
+    "scored_characters": 27,
+    "by_kind": {},
+    "by_attribute": {
+      "bold": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null
+      },
+      "italic": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null
+      }
+    }
+  },
+  "reading_order": {
+    "checkpoints": 1,
+    "reference_units": 5,
+    "aligned_units": 5,
+    "reference_pairs": 10,
+    "comparable_pairs": 10,
+    "concordant_pairs": 3
+  }
+}
